@@ -1,0 +1,58 @@
+! This file contains commands to be read in for a Pythia8 run.
+! Lines not beginning with a letter or digit are comments.
+! Names are case-insensitive  -  but spellings-sensitive!
+
+! 1) Settings used in the main program.
+Main:numberOfEvents = 100000               ! number of events to generate
+
+! 2) Beam parameter settings.
+Beams:frametype = 2                     ! Beams with different energies
+Beams:idA = 2212                        ! first beam
+Beams:idB = 2212                        ! second beam
+! Beams:eCM = 5020.
+Beams:eA = 2560.0                       
+Beams:eB = 6500.0                      
+
+! 3) Some general changes.
+Photon:ProcessType = 0                  ! Allow all photon processes
+!Photon:Q2max = 1.                      ! Maximal Q2
+SoftQCD:nonDiffractive = on           
+!PhotonParton:all = on                  ! All dijet MEs with photons
+PhotonParton:ggm2ccbar = on             ! only the ccbar contribution
+StringFlav:mesonCvector = 1.5
+PhaseSpace:pThatMin = 0.                ! Minimal pT cut
+Photon:Wmin = 82.                       ! W_{min} = sqrt{x_{min} times s_{NN}}, where x_{min} = 10^{-4}
+Photon:sampleQ2 = off                   ! Do not sample virtuality since use b-integrated flux here.
+
+! 4) PDF parameter settings.
+
+PDF:beamA2gamma = on                   
+PDF:proton2gammaSet = 0
+! option 0 : Use an externally provided photon flux. This flux has to be passed with method Pythia::setPhotonFluxPtr(pdfAPtr, pdfBPtr).
+!option 1 : Use virtuality integrated photon flux from Budnev et al. As the flux is integrated over Q^2, the virtuality is always set to zero and the scattered beam proton does not have any transverse momentum. When this option is applied the Q^2 sampling will be turned off.
+!option 2 : Use a virtuality-dependent flux similar to the approximation by Drees and Zeppenfeld. Uses a dipole form factor to appropriately suppress high virtualities.
+
+
+PDF:beam2gammaApprox = 2                ! 2 = heavy ions
+!mode  PDF:beam2gammaApprox   (default = 1; minimum = 1; maximum = 2)
+!Controls which type of overestimate is used for photon flux sampling.
+!option 1 : Estimate optimized for photons from leptons. Works reasonable well also for photoproduction in p+p.
+!option 2 : Estimate optimized for ultraperipheral heavy-ion collisions as presented in main344.cc. Here the estimate is divided into two regions, a power-law in x_gamma below x_cut and an exponential fall-off above, see the related parameters below. Default values are optimized for p+Pb collisions where Pb-nucleus provide the photons, but they should work reasonably well also for other similar configurations.
+!Note 1: Parameters do not affect the flux itself, only the sampling efficiency.
+!Note 2: This option was formerly named as PDF:lepton2gammaApprox but is renamed for version 8.3.
+
+
+PDF:gammaFluxApprox2bMin = 7.336        ! b min integrated
+
+! 5) Simplify printout.
+
+Init:showChangedSettings = on
+Init:showChangedParticleData = off
+Init:showMultipartonInteractions = off
+Next:numberShowInfo = 0
+Next:numberShowProcess = 1
+Next:numberShowEvent = 0
+Next:showScaleAndVertex = off
+Next:numberCount = 10000
+
+

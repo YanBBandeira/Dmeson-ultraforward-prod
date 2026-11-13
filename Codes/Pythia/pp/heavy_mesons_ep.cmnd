@@ -1,0 +1,61 @@
+! This file contains commands to be read in for a Pythia8 run.
+! Lines not beginning with a letter or digit are comments.
+! Names are case-insensitive  -  but spellings-sensitive!
+
+! 1) Settings used in the main program.
+Main:numberOfEvents = 1000000               ! number of events to generate
+
+! 2) Beam parameter settings.
+Beams:frametype = 2                     ! Beams with different energies
+Beams:idA = 2212                        ! first beam
+Beams:idB = -11                        ! second beam
+Beams:eA = 920.0                       
+Beams:eB = 27.6                       
+
+! 3) Some general changes.
+Photon:ProcessType = 0                  ! Allow all photon processes
+Photon:Q2max = 0.01                       ! Maximal Q2
+! HardQCD:all = on                        ! All dijet MEs
+! PhotonParton:all = on                   ! All dijet MEs with photons
+! HardQCD:all = on
+PhotonParton:ggm2ccbar = on             ! only the ccbar contribution
+!SoftQCD:nonDiffractive = on           
+! StringFlav:mesonCvector = 1.5
+PhaseSpace:pThatMin = 1.5               ! Minimal pT cut
+! PhaseSpace:mHatMin = 3.                 ! Minimum invariant mass
+MultipartonInteractions:pT0Ref = 3.     ! Tuned ep value
+! Photon:Wmin = 82.                       ! W_{min} = sqrt{x_{min} x s_{NN}}, x_{min} = 10^{-4}
+! Do not sample virtuality since use b-integrated flux here.
+Photon:sampleQ2 = on
+Photon:Wmin = 174.0                     ! W_min corresponding to y = 0.3
+Photon:Wmax = 256.0                     ! W_max corresponding to y = 0.65
+
+! 4) PDF parameter settings.
+
+PDF:beamB2gamma = on                   
+PDF:proton2gammaSet = 0
+!PDF:beam2gammaApprox = 2                ! 2 = heavy ions
+!PDF:gammaFluxApprox2bMin = 7.336        ! b min integrated
+!PDF:pSetB = 13
+
+! 5) Diffractive settings.
+
+Diffraction:doHard = on
+Diffraction:sampleType = 2              ! 1 for 'PDF' sample ! 2 for MPI checked
+Diffraction:hardDiffSide = 2            ! Diff. on photon side
+SigmaDiffractive:PomFlux = 6            ! H1 Fit B LO
+PDF:PomSet = 3   
+!421:mayDecay = off                       ! H1 Fit B LO
+
+
+! 5) Simplify printout.
+
+Init:showChangedSettings = on
+Init:showChangedParticleData = off
+Init:showMultipartonInteractions = off
+Next:numberShowInfo = 0
+Next:numberShowProcess = 1
+Next:numberShowEvent = 0
+Next:showScaleAndVertex = off
+
+
