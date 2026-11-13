@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
 
 
 
-  int nEvent = 10000; // 1000000;
+  int nEvent = 10000000; // 1000000;
   int nAcceptedEvents = 0;
 
   for (int iEvent = 0; iEvent < nEvent; ++iEvent)
