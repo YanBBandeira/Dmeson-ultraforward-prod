@@ -126,6 +126,8 @@ def gerar_plot_individual(meson_name, paths_dict, output_pdf_path):
       """Gera o gráfico individual (Hadrônico vs Fotonprodução) com painel de razão."""
       print(f"\nGerando gráfico individual para o méson {meson_name}...")
       
+  
+      
       x_h, dN_h = carregardados(paths_dict["hadronico"])
       x_p, dN_p = carregardados(paths_dict["foton"])
       
@@ -140,7 +142,7 @@ def gerar_plot_individual(meson_name, paths_dict, output_pdf_path):
             x, dN = carregardados(filepath)
             ax1.plot(x, dN, marker=st["marker"], color=st["color"], linestyle=st["linestyle"],
                      linewidth=2.0, markersize=5, markerfacecolor="none", markeredgewidth=1.2, 
-                     alpha=0.85, label=f"Soft pp ({st['base_label']})", zorder=2)
+                     alpha=0.85, label=rf"{meson_name} ({st['base_label']})", zorder=2)
             
       ax1.text(0.02, 0.97, rf"$\sqrt{{s}} = 13.0$ TeV, {meson_name}",
                horizontalalignment="left", verticalalignment="top", transform=ax1.transAxes)
@@ -241,10 +243,10 @@ def gerar_plot_conjunto_com_razao(datasets, output_pdf_path):
 
 if __name__ == "__main__":
     # 1. Gráfico individual para o D0 (com razão)
-    gerar_plot_individual("D0", datasets["D0"], FIGURE_DIR / "plot_dNeta_D0_comparison.pdf")
+    gerar_plot_individual("$D^0$", datasets["D0"], FIGURE_DIR / "plot_dNeta_D0_comparison.pdf")
     
     # 2. Gráfico individual para o Ds (com razão)
-    gerar_plot_individual("Ds", datasets["Ds"], FIGURE_DIR / "plot_dNdeta_Ds_comparison.pdf")
+    gerar_plot_individual("$D_s$", datasets["Ds"], FIGURE_DIR / "plot_dNdeta_Ds_comparison.pdf")
     
     # 3. Gráfico conjunto (D0 e Ds juntos) com painel de razão integrado
     gerar_plot_conjunto_com_razao(datasets, FIGURE_DIR / "plot_dNdeta_D0_Ds_combined_ratio.pdf")

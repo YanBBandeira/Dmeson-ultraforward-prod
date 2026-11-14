@@ -143,28 +143,45 @@ int main(int argc, char *argv[])
   double normFactor_pt  = 1.0 / (nAcceptedEvents * binWidth_pt);
 
 
-  dNeta_D0meson_eta *= normFactor_eta;
-  dNeta_Dsmeson_eta *= normFactor_eta;
-
-  dNeta_D0meson_y *= normFactor_y;
-  dNeta_Dsmeson_y *= normFactor_y;
-
-  dNeta_D0meson_pt *= normFactor_pt;
-  dNeta_Dsmeson_pt *= normFactor_pt;
-
+   // 2. Criação das distribuições de Seção de Choque (dsigma/dx)
+  // pythia.info.sigmaGen() retorna a seção de choque total em milibarns (mb)
+  double sigmaGen_mb = pythia.info.sigmaGen(); 
   
-  // Salvamento estruturado nas pastas de pT
+  // Opcional: multiplique por 1e3 para microbarns (ub) ou 1e9 para picobarns (pb)
+  double unitConv = 1.0; // mantém em mb
+
+  Hist dSigma_D0meson_eta = dNeta_D0meson_eta * (sigmaGen_mb * unitConv);
+  Hist dSigma_Dsmeson_eta = dNeta_Dsmeson_eta * (sigmaGen_mb * unitConv);
+
+  Hist dSigma_D0meson_y   = dNeta_D0meson_y   * (sigmaGen_mb * unitConv);
+  Hist dSigma_Dsmeson_y   = dNeta_Dsmeson_y   * (sigmaGen_mb * unitConv);
+
+  Hist dSigma_D0meson_pt  = dNeta_D0meson_pt  * (sigmaGen_mb * unitConv);
+  Hist dSigma_Dsmeson_pt  = dNeta_Dsmeson_pt  * (sigmaGen_mb * unitConv);
+
+  // 3. Salvamento estruturado
   std::string baseOut = "../../Output/pp/Soft_pp/eCM_" + eCM_str + "GeV/";
   fs::create_directories(baseOut);
 
+  // Salvando distribuições de N (1/Nev * dN/dx)
   dNeta_D0meson_eta.table(baseOut + "dNdeta_D0meson_eta.dat");
-  dNeta_D0meson_y.table(baseOut + "dNdeta_D0meson_y.dat");
-  dNeta_D0meson_pt.table(baseOut + "dNdeta_D0meson_pt.dat");
+  dNeta_D0meson_y.table(baseOut + "dNdy_D0meson_y.dat");
+  dNeta_D0meson_pt.table(baseOut + "dNdpt_D0meson_pt.dat");
   dNeta_Dsmeson_eta.table(baseOut + "dNdeta_Dsmeson_eta.dat");
-  dNeta_Dsmeson_y.table(baseOut + "dNdeta_Dsmeson_y.dat");
-  dNeta_Dsmeson_pt.table(baseOut + "dNdeta_Dsmeson_pt.dat");
+  dNeta_Dsmeson_y.table(baseOut + "dNdy_Dsmeson_y.dat");
+  dNeta_Dsmeson_pt.table(baseOut + "dNdpt_Dsmeson_pt.dat");
+
+  // Salvando distribuições de Seção de Choque (dsigma/dx em mb)
+  dSigma_D0meson_eta.table(baseOut + "dSigmadeta_D0meson_eta.dat");
+  dSigma_D0meson_y.table(baseOut + "dSigmady_D0meson_y.dat");
+  dSigma_D0meson_pt.table(baseOut + "dSigmadpt_D0meson_pt.dat");
+  dSigma_Dsmeson_eta.table(baseOut + "dSigmadeta_Dsmeson_eta.dat");
+  dSigma_Dsmeson_y.table(baseOut + "dSigmady_Dsmeson_y.dat");
+  dSigma_Dsmeson_pt.table(baseOut + "dSigmadpt_Dsmeson_pt.dat");
+
   mult_D0meson_eta.table(baseOut + "mult_D0meson_eta.dat");
   mult_Dsmeson_eta.table(baseOut + "mult_Dsmeson_eta.dat");
-  cout << "Simulação finalizada e arquivos salvos com sucesso e salvos em" + baseOut + "!" << endl;
-  return 0;
+
+  cout << "Secao de choque total gerada: " << sigmaGen_mb << " mb" << endl;
+  cout << "Simulacao finalizada e arquivos salvos em " << baseOut << endl;
 }
